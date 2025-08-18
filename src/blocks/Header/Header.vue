@@ -1,16 +1,16 @@
 <template>
-    <header
-      class="w-full flex items-center h-20 bg-transparent text-white py-3 sticky top-0 z-50 font-sora"
-    >
-      <div class="w-full px-shell h-8 flex justify-between items-center">
-        <div class="flex gap-4 items-center">
-          <slot name="logo" />
-        </div>
-  
-        <div class="flex items-center gap-7">
-          <slot name="navigation" />
-          <div class=" bg-white rounded-md p-2 hidden xl:flex">
-            <a
+  <header
+    class="w-full max-w-[1600px] mx-auto flex items-center h-20 bg-transparent text-white py-3 sticky top-0 z-50 font-sora px-6"
+  >
+    <div class="w-full h-8 flex justify-between items-center">
+      <div class="flex gap-4 items-center">
+        <slot name="logo" />
+      </div>
+
+      <div class="flex items-center gap-7">
+        <slot name="navigation" />
+        <div class="bg-[#EDE8E8] rounded-md p-2 hidden xl:flex">
+          <a
             v-for="(menu, index) in menuSecondary"
             :key="index"
             :target="menu.target"
@@ -31,30 +31,33 @@
               {{ menu.text }}
             </span>
           </a>
-          </div>
-          <div
-            v-if="$slots.dialog"
-            class="min-w-8"
-          >
-            <slot name="dialog" />
-          </div>
-          <Button type="primary" v-if="callToAction.href"  icon="pi pi-chevron-right"  :label="callToAction.label"/>
-          
-          <slot name="mobile-right-sidebar" />
         </div>
+        <div
+          v-if="$slots.dialog"
+          class="min-w-8"
+        >
+          <slot name="dialog" />
+        </div>
+        <Button
+          type="primary"
+          v-if="callToAction.href"
+          icon="pi pi-chevron-right"
+          :label="callToAction.label"
+        />
 
+        <slot name="mobile-right-sidebar" />
       </div>
-    </header>
-</template> 
-  
+    </div>
+  </header>
+</template>
+
 <script setup>
   import Button from '../../components/Button'
   const props = defineProps({ menuSecondary: Object })
-  const { menuSecondary } = props;
-  
+  const { menuSecondary } = props
+
   const callToAction = {
     label: 'Sign Up Free',
     href: 'https://www.azion.com/sign-up'
   }
-
 </script>
