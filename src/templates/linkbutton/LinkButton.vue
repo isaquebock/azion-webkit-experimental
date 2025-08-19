@@ -1,36 +1,32 @@
 <template>
-  <a
+  <Button
+    :as="'a'"
     :href="link"
     :title="label"
     :target="target"
     rel="noopener noreferrer"
-    class="p-button p-component p-button-sm w-fit no-underline justify-center gap-2 px-4"
+    :label="label ? capitalizeLetter(String(label).trim()) : undefined"
+    :icon="iconPos ? `pi ${icon}` : undefined"
+    :iconPos="iconPos === 'left' ? 'left' : iconPos === 'right' ? 'right' : undefined"
+    :outlined="outlined"
+    :text="text || textLink"
+    :severity="severity"
+    :size="size === 'small' ? 'small' : undefined"
+    class="w-fit no-underline justify-center gap-2 px-4"
     :class="[
-      { 'p-button-outlined hover:surface-hover': outlined },
-      { 'p-button-text hover:surface-hover': text },
-      { 'p-button-secondary': severity === 'secondary' },
-      { 'p-button-info': severity === 'info' },
-      { 'p-button-sm': size === 'small' },
+      { 'hover:surface-hover': outlined || text },
       { 'flex flex-row-reverse': iconPos === 'left' },
       { 'p-button-icon-only': iconPos === 'center' },
       { 'md:justify-start': iconPos !== 'center' },
-      { 'p-button-link pl-0 pr-0 hover:underline': textLink }
+      { 'pl-0 pr-0 hover:underline': textLink }
     ]"
-  >
-    <template v-if="label">
-      {{ capitalizeLetter(String(label).trim()) }}
-    </template>
-
-    <span
-      v-if="iconPos"
-      :style="customIconStyle"
-      :class="`pi p-button-icon ${icon}`"
-      data-pc-section="icon"
-    />
-  </a>
+    :style="iconPos ? customIconStyle : undefined"
+  />
 </template>
 
 <script setup>
+  import Button from 'primevue/button'
+
   defineProps({
     icon: {
       type: String,
