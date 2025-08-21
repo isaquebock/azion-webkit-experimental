@@ -9,7 +9,7 @@
 
       <div class="flex items-center gap-7">
         <slot name="navigation" />
-        <div class="bg-[#EDE8E8] rounded-md p-2 hidden xl:flex">
+        <div class="bg-neutral-200 rounded-md p-2 hidden xl:flex">
           <a
             v-for="(menu, index) in menuSecondary"
             :key="index"
@@ -24,7 +24,7 @@
               menu.minBreakpoint && menu.minBreakpoint === 'lg' && 'hidden lg:block',
               menu.minBreakpoint && menu.minBreakpoint === 'xl' && 'hidden xl:block',
               menu.minBreakpoint && menu.minBreakpoint === '2xl' && 'hidden 2xl:block',
-              'border-none py-2 px-4 hover:bg-neutral-100'
+              'border-none py-2 px-4 hover:bg-neutral-100 rounded-md'
             ]"
           >
             <span :class="['text-sm', 'text-black', 'font-sora']">
@@ -38,12 +38,6 @@
         >
           <slot name="dialog" />
         </div>
-        <Button
-          type="primary"
-          v-if="callToAction.href"
-          icon="pi pi-chevron-right"
-          :label="callToAction.label"
-        />
 
         <slot name="mobile-right-sidebar" />
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div class="bg-transparent ">
     <section
       aria-label="main section"
       class="bg-cover bg-center bg-no-repeat h-[34rem] flex items-center relative"
@@ -7,7 +7,7 @@
     >
       <div class="container mx-auto px-4 relative z-10">
         <div class="">
-          <h1 class="text-neutral-900 font-sora text-4xl md:text-6xl mb-6 md:text-left text-center">
+          <h1 class="text-neutral-100 font-sora text-4xl md:text-6xl mb-6 md:text-left text-center">
             The Web Platform to Build, Secure and Scale applications
           </h1>
           <div
@@ -28,7 +28,7 @@
               ></Button>
             </div>
             <p
-              class="md:max-w-[33rem] w-full font-sora text-neutral-900 md:text-base text-xs md:text-left text-center"
+              class="md:max-w-[33rem] w-full font-sora text-neutral-100 md:text-base text-xs md:text-left text-center"
             >
               {{ description }}
             </p>

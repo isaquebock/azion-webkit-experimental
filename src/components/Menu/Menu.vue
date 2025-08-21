@@ -1,13 +1,13 @@
 <template>
-  <nav class="hidden lg:flex">
-    <ul class="flex bg-[#EDE8E8] p-2 rounded-md">
+  <nav class="hidden lg:flex relative">
+    <ul class="flex bg-neutral-200 p-2 rounded-md">
       <li
-        v-for="(menuitem, index) in menuData.items"
+        v-for="(menuitem, index) in menuData.menu"
         :key="index"
         class="py-2 px-4 flex items-center hover:bg-neutral-100 transition duration-300 delay-75 rounded-md"
       >
         <a
-          v-if="!menuitem.items || !menuitem.items.length"
+          v-if="!menuitem.subMenuColumns || !menuitem.subMenuColumns.length"
           :href="menuitem.href || ''"
           :title="menuitem.label || ''"
           class="p-button p-0 p-button-text p-button-primary p-button-sm whitespace-nowrap text-white active:bg-header-button-hover hover:surface-hover"
@@ -20,7 +20,7 @@
 
         <div
           class="flex items-center"
-          v-if="menuitem.items && menuitem.items.length"
+          v-if="menuitem.subMenuColumns && menuitem.subMenuColumns.length"
         >
           <button
             @click="
@@ -37,66 +37,93 @@
                 {{ menuitem.label }}
               </span>
               <i
-                class="pi pi-angle-down text-sm"
+                class="pi pi-angle-down text-sm duration-25 transition"
                 :class="activeMenu == menuitem.ref && 'rotate-180'"
               />
             </div>
           </button>
-          <OverlayPanel
+          <Popover
             unstyled
             :id="menuitem.ref"
             @hide="hideOverlayPanel(menuitem.ref)"
+            @show="onShow(menuitem.ref)"
             ref="itemRefs"
             :pt="{
               content: {
                 class:
-                  'top-6 left-1/2 -translate-x-1/3 absolute p-0 hidden lg:flex flex-row rounded-md max-w-[calc(100%-8.5rem)] xl:max-w-6xl 2xl:max-w-screen-xl'
+                  `fixed top-[5rem] right-0 hidden lg:flex flex-row rounded-md ${menuitem.subMenuColumns.length > 3 ? 'mr-[1.5rem]' : 'mr-[19.35rem]'}`
               }
             }"
           >
-            <div class="flex flex-col gap-2 p-4 bg-[#EDE8E8] text-black rounded-md shadow-xl">
+            <div 
+              :ref="`popoverContent-${menuitem.ref}`"
+              class="flex flex-col gap-3 p-4 bg-neutral-200 text-black rounded-md shadow-xl opacity-0 scale-95 transition-all duration-500 ease-out">
               <div
-                v-if="menuitem.items && menuitem.items.length"
+                v-if="menuitem.subMenuColumns && menuitem.subMenuColumns.length"
                 class="flex gap-2"
               >
-                <div
-                  v-for="(subItem, index) in menuitem.items"
+                <ul
+                  v-for="(subItem, index) in menuitem.subMenuColumns"
                   :key="index"
-                  class="gap-2 min-w-72"
+                  :ref="`column-${menuitem.ref}-${index}`"
+                  class="gap-2 min-w-72 opacity-0 translate-y-2 transition-all duration-700 ease-out"
                 >
-                  <template v-if="subItem.items">
+                  <template v-if="subItem.items && subItem.label">
                     <span
-                      class="font-proto-mono text-xs pb-4 mx-2 pt-2 block border-b border-neutral-900"
+                      class="font-proto-mono text-xs pb-3 pt-1 block border-b border-neutral-900"
                     >
                       {{ subItem.label }}</span
                     >
-                    <ul
-                      class="flex flex-col gap-4 text-black mt-4"
+                    <li
+                      class="flex flex-col text-sm gap-1 text-black mt-2 hover:bg-neutral-100 transition duration-300 delay-75 p-1 rounded-md"
                       v-for="(item, index) in subItem.items"
                       :key="index"
                     >
-                      <li
-                        class="hover:bg-neutral-100 transition duration-300 delay-75 p-2 rounded-md"
-                      >
                         <a
                           :href="item.href"
                           :title="item.label"
                         >
-                          <span class="font-sora text-base font-semibold">
+                          <span class="font-sora text-sm font-semibold">
                             {{ item.label }}
                           </span>
                         </a>
-                        <p class="text-sm mt-1 block">{{ item.description }}</p>
-                      </li>
-                    </ul>
+                        <p class="text-sm block">{{ item.description }}</p>
+                    </li>
                   </template>
-                  <template v-else>
-                    <span class="text-base pb-4 text-center"> {{ subItem.label }}</span>
+                  <template v-if="subItem.length">
+                    <div
+                      v-for="(item, index) in subItem"
+                      :key="index"
+                      class="gap-3 min-w-72 first:pb-3"
+                    >
+                      <template v-if="item.items && item.label">
+                        <span
+                          class="font-proto-mono text-xs pb-3 pt-1 block border-b border-neutral-900"
+                        >
+                          {{ item.label }}</span
+                        >
+                        <li
+                          class="flex flex-col text-sm gap-1 text-black mt-2 hover:bg-neutral-100 transition duration-300 delay-75 p-1 rounded-md"
+                          v-for="(item, index) in item.items"
+                          :key="index"
+                        >
+                            <a
+                              :href="item.href"
+                              :title="item.label"
+                            >
+                              <span class="font-sora text-sm font-semibold">
+                                {{ item.label }}
+                              </span>
+                            </a>
+                            <p class="text-sm block">{{ item.description }}</p>
+                        </li>
+                      </template>
+                    </div>
                   </template>
-                </div>
+                </ul>
               </div>
             </div>
-          </OverlayPanel>
+          </Popover>
         </div>
       </li>
     </ul>
@@ -105,7 +132,7 @@
 
 <script setup>
   import { ref } from 'vue'
-  import OverlayPanel from 'primevue/overlaypanel'
+  import Popover from 'primevue/popover'
 
   const props = defineProps({
     menuData: {
@@ -153,5 +180,31 @@
     }
 
     return breakpoints[breakpoint] || ''
+  }
+
+  const onShow = (refAttr) => {
+    activeMenu.value = refAttr
+  
+    setTimeout(() => {
+      const content = document.querySelector(`[data-pc-section="content"]`)
+      if (content) {
+        const innerDiv = content.querySelector('div')
+        if (innerDiv) {
+          innerDiv.classList.remove('opacity-0', 'scale-95')
+          innerDiv.classList.add('opacity-100', 'scale-100')
+        }
+      }
+    }, 50)
+
+    // Animar as colunas com delay
+    setTimeout(() => {
+      const columns = document.querySelectorAll(`ul[class*="gap-2 min-w-72"]`)
+      columns.forEach((column, index) => {
+        setTimeout(() => {
+          column.classList.remove('opacity-0', 'translate-y-2')
+          column.classList.add('opacity-100', 'translate-y-0')
+        }, index * 50)
+      })
+    }, 200)
   }
 </script>

@@ -1,7 +1,7 @@
 {
-  "name": "azion-webkit-experimental",
+  "name": "@isaquebock/azion-webkit-experimental",
   "author": "aziontech",
-  "version": "1.112.0",
+  "version": "1.0.0",
   "url": "https://webkit.azion.com/",
   "contributors": [
     {
