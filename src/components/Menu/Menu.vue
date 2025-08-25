@@ -46,7 +46,6 @@
             unstyled
             :id="menuitem.ref"
             @hide="hideOverlayPanel(menuitem.ref)"
-            @show="onShow(menuitem.ref)"
             ref="itemRefs"
             :pt="{
               content: {
@@ -57,7 +56,7 @@
           >
             <div 
               :ref="`popoverContent-${menuitem.ref}`"
-              class="flex flex-col gap-3 p-4 bg-neutral-200 text-black rounded-md shadow-xl opacity-0 scale-95 transition-all duration-500 ease-out">
+              class="flex flex-col gap-3 p-4 bg-neutral-200 text-black rounded-md shadow-xl scale-95 transition-all duration-500 ease-out">
               <div
                 v-if="menuitem.subMenuColumns && menuitem.subMenuColumns.length"
                 class="flex gap-2"
@@ -66,7 +65,7 @@
                   v-for="(subItem, index) in menuitem.subMenuColumns"
                   :key="index"
                   :ref="`column-${menuitem.ref}-${index}`"
-                  class="gap-2 min-w-72 opacity-0 translate-y-2 transition-all duration-700 ease-out"
+                  class="gap-2 min-w-72 translate-y-2 transition-all duration-700 ease-out"
                 >
                   <template v-if="subItem.items && subItem.label">
                     <span
@@ -180,31 +179,5 @@
     }
 
     return breakpoints[breakpoint] || ''
-  }
-
-  const onShow = (refAttr) => {
-    activeMenu.value = refAttr
-  
-    setTimeout(() => {
-      const content = document.querySelector(`[data-pc-section="content"]`)
-      if (content) {
-        const innerDiv = content.querySelector('div')
-        if (innerDiv) {
-          innerDiv.classList.remove('opacity-0', 'scale-95')
-          innerDiv.classList.add('opacity-100', 'scale-100')
-        }
-      }
-    }, 50)
-
-    // Animar as colunas com delay
-    setTimeout(() => {
-      const columns = document.querySelectorAll(`ul[class*="gap-2 min-w-72"]`)
-      columns.forEach((column, index) => {
-        setTimeout(() => {
-          column.classList.remove('opacity-0', 'translate-y-2')
-          column.classList.add('opacity-100', 'translate-y-0')
-        }, index * 50)
-      })
-    }, 200)
-  }
+  } 
 </script>

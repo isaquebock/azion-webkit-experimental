@@ -52,5 +52,5 @@
   import { listData, cta, copyright, socialButtons } from './blocks/Footer/footer'
   import Hero from './blocks/Hero'
   import StackSection from './blocks/StackSection'
-  import { menu, secondaryMenu, mobileSecondaryMenu, mobileBottomButtons } from './blocks/Header/mock'
+  import { menu, secondaryMenu, mobileSecondaryMenu, mobileBottomButtons } from './blocks/Header/headerdata'
 </script>
