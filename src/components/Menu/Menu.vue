@@ -51,7 +51,7 @@
             :pt="{
               content: {
                 class:
-                  `fixed top-[5rem] right-0 hidden lg:flex flex-row rounded-md ${menuitem.subMenuColumns.length > 3 ? 'mr-[1.5rem]' : 'mr-[19.35rem]'}`
+                  `fixed top-[5rem] hidden lg:flex flex-row rounded-md ${menuitem.subMenuColumns.length > 3 ? 'right-[1.5rem] 3xl:right-[50%] 3xl:translate-x-1/2' : ' right-[19.3rem] 3xl:right-[32.5%] 3xl:translate-x-1/2'}`
               }
             }"
           >

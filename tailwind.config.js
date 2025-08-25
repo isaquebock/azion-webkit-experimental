@@ -37,6 +37,15 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'xs': '360px',
+        'sm': '480px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1200px',
+        '2xl': '1366px',
+        '3xl': '1600px',
+      },
       fontFamily: {
         'mono': 'Roboto Mono',
         'sora': ['Sora', 'sans-serif'],

@@ -11,7 +11,7 @@
     <template #navigation>
       <HeaderNavigation
         client:idle
-        :menuData="menu"
+        :menuData="menu"  
       />
     </template>
     <template #mobile-right-sidebar>
